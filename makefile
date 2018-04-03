@@ -1,0 +1,2 @@
+build:
+	wepy build --watch

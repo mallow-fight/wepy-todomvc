@@ -1,0 +1,13 @@
+{
+  "description": "A WePY project",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram",
+  "appid": "wx9b23c7aa802a69a0",
+  "projectname": "wepy-todomvc",
+  "miniprogramRoot": "./dist"
+}
