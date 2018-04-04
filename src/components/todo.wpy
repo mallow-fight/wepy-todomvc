@@ -68,7 +68,6 @@
   const store = getStore()
   @connect({
     todos(state) {
-      console.log(state.todo.todos)
       return state.todo.todos
     }
   }, {

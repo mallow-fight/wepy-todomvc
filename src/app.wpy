@@ -22,8 +22,7 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
-      'todomvc/index',
-      'pages/index'
+      'todomvc/index'
     ],
     window: {
       backgroundTextStyle: 'light',
