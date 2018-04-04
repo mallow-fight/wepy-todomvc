@@ -63,3 +63,50 @@
   - [x] 使用纯函数执行修改
 
 > [wepy-redux](https://www.npmjs.com/package/wepy-redux)
+
+## 多任务列表
+
+```txt
+current state.todo:
+{
+  todoId: xx,
+  todos: [
+    {id: 0, text: "1111", complete: false, disabled: true, classes: ['class1']},
+    {id: 0, text: "1111", complete: false, disabled: false, classes: ['class2']},
+    ...
+    {id: 0, text: "1111", complete: false, disabled: true, classes: ['class1']},
+    {id: 0, text: "1111", complete: true, disabled: true, classes: ['class3']}
+  ]
+}
+
+you can create a todomvc list, the tree of it like:
+{
+  todoId: xx, // prevent drag one to other cause conflict, so put it outside
+  todosList: [
+    [
+      {id: 0, text: "1111", complete: false, disabled: true, classes: ['class1']},
+      {id: 0, text: "1111", complete: false, disabled: false, classes: ['class2']},
+      ...
+      {id: 0, text: "1111", complete: false, disabled: true, classes: ['class1']},
+      {id: 0, text: "1111", complete: true, disabled: true, classes: ['class3']}
+    ],
+    [
+      {id: 0, text: "1111", complete: false, disabled: true, classes: ['class1']},
+      {id: 0, text: "1111", complete: false, disabled: false, classes: ['class2']},
+      ...
+      {id: 0, text: "1111", complete: false, disabled: true, classes: ['class1']},
+      {id: 0, text: "1111", complete: true, disabled: true, classes: ['class3']}
+    ],
+    [
+      {id: 0, text: "1111", complete: false, disabled: true, classes: ['class1']},
+      {id: 0, text: "1111", complete: false, disabled: false, classes: ['class2']},
+      ...
+      {id: 0, text: "1111", complete: false, disabled: true, classes: ['class1']},
+      {id: 0, text: "1111", complete: true, disabled: true, classes: ['class3']}
+    ]
+    ...
+  ]
+}
+
+try it! guys!
+```
