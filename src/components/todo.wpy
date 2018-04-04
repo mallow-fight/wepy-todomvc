@@ -84,9 +84,16 @@
         text: ''
       }
     }
+    props = {
+      todoIndex: {
+        type: [Number],
+        default: 0
+      }
+    }
     methods = {
       inputTodoThing(e) {
         this.todoThing.text = e.detail.value
+        this.todoThing.todoIndex = this.todoIndex
       },
       editTodoThing(todo, e) {
         todo.text = e.detail.value

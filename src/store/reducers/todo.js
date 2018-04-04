@@ -8,6 +8,10 @@ function deleteClass(body, name) {
     })
     return map
 }
+function cacheState(map) {
+    wepy.setStorageSync('todos', map)
+    return map
+}
 export default handleActions({
   [REMOVE_TODO] (state, action) {
     function cutTodos() {
@@ -18,17 +22,15 @@ export default handleActions({
         })
         return map
     }
-    const stateMap = cutTodos()
-    wepy.setStorageSync('todos', stateMap)
-    return {
-      ...state,
-      todos: cutTodos()
-    }
+    return cacheState({
+        ...state,
+        todos: cutTodos()
+    })
   },
   [ADD_TODO] (state, action) {
     const text = action.payload.text
     if(!text) return {...state, todos: state.todos}
-    const stateMap = {
+    return cacheState({
         ...state,
         todos: state.todos.concat({
             id: state.todoId ++,
@@ -37,12 +39,10 @@ export default handleActions({
             disabled: true,
             classes: ['todoText']
         })
-    }
-    wepy.setStorageSync('todos', stateMap)
-    return stateMap
+    })
   },
   [COMPLETE_TODO] (state, action) {
-      return {
+      return cacheState({
         ...state,
         todos: state.todos.map( todo => {
           if(todo.id === action.payload) { 
@@ -55,35 +55,35 @@ export default handleActions({
           }
           return todo
         })
-    }
+    })
   },
   [OPEN_EDIT_TODO] (state, action) {
-      return {
-          ...state,
-          todos: state.todos.map( todo => {
-            if(todo.id === action.payload) { 
-              todo.disabled = !todo.disabled
-              if(!todo.disabled) { 
-                  todo.classes.push('editText') 
-              } else {
-                  todo.classes = deleteClass(todo.classes, 'editText')
-              }
+      return cacheState({
+        ...state,
+        todos: state.todos.map( todo => {
+          if(todo.id === action.payload) { 
+            todo.disabled = !todo.disabled
+            if(!todo.disabled) { 
+                todo.classes.push('editText') 
+            } else {
+                todo.classes = deleteClass(todo.classes, 'editText')
             }
-            return todo
-        })
-      }
+          }
+          return todo
+      })
+    })
   },
   [EDIT_TODO] (state, action) {
       const {id, text} = action.payload
-      return {
-          ...state,
-          todos: state.todos.map( todo => {
-              if(todo.id === id) { 
-                todo.text = text
-              }
-              return todo
-          })
-      }
+      return cacheState({
+        ...state,
+        todos: state.todos.map( todo => {
+            if(todo.id === id) { 
+              todo.text = text
+            }
+            return todo
+        })
+    })
   }
 }, {
   todoId: wx.getStorageSync('todos').todoId || 0,

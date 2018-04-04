@@ -1,6 +1,6 @@
 <template>
   <view>
-    <todo />
+      <todo />
   </view>
 </template>
 <script>
