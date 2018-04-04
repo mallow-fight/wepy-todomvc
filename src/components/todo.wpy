@@ -1,0 +1,97 @@
+<style lang="less" scoped>
+  @import '../theme.less';
+  .todo {
+    padding: @tiny;
+    border: 1rpx solid @sky;
+  }
+  .inputThing {
+    border: 1rpx solid @river;
+  }
+  .todoText, .todoEdit, .todoRemove, .inputThing, .addTodo, .todoComplete {
+    .d-ib;
+    .v-m;
+  }
+  .todoText {
+    width: 45%;
+  }
+  .inputThing{
+    width: 80%;
+  }
+  .todoList {
+    display: block;
+  }
+  .todoInput{
+    width: 100%;
+  }
+  .completeText{
+    text-decoration: line-through;
+    color: @river;
+  }
+  .editText{
+    color: red;
+  }
+</style>
+<template>
+  <view class="todo">
+    <view class="todoInput">
+      <input class="inputThing" bindinput="inputTodoThing" placeholder="输入任务项" />
+      <button class="addTodo" size="mini" type="primary" @tap="addTodo({{todoThing}})">添加</button>    
+    </view>
+    <view class="todoList">
+      <repeat for="{{todos}}" key="index" index="index" item="todo">
+          <input 
+          type="text" 
+          disabled="{{todo.disabled}}"
+          value="{{todo.text}}"
+          bindinput="editTodoThing({{todo}})"
+          class="{{todo.classes}}" />
+          <button size="mini" type="primary" class="todoComplete" @tap="completeTodo({{todo.id}})">{{ todo.complete ? '已完成' : '未完成' }}</button>
+          <button size="mini" class="todoEdit" @tap="openEditTodo({{todo.id}})">{{ todo.disabled ? '修改' : '完成' }}</button>
+          <button size="mini" type="warn" class="todoRemove" @tap="removeTodo({{todo.id}})">移除</button>
+      </repeat>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import {
+    connect,
+    getStore
+  } from 'wepy-redux'
+  import {
+    addTodo,
+    removeTodo,
+    completeTodo,
+    editTodo,
+    openEditTodo
+  } from '../store/actions/todo.js'
+  const store = getStore()
+  @connect({
+    todos(state) {
+      console.log(state.todo.todos)
+      return state.todo.todos
+    }
+  }, {
+    addTodo,
+    removeTodo,
+    completeTodo,
+    editTodo,
+    openEditTodo
+  })
+  export default class Todo extends wepy.component {
+    data = {
+      todoThing: {
+        text: ''
+      }
+    }
+    methods = {
+      inputTodoThing(e) {
+        this.todoThing.text = e.detail.value
+      },
+      editTodoThing(todo, e) {
+        todo.text = e.detail.value
+        store.dispatch(editTodo(todo))
+      }
+    }
+  }
+</script>

@@ -1,0 +1,17 @@
+<template>
+  <view>
+    <todo />
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import Todo from '../components/todo'
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'todomvc'
+    }
+    components = {
+      todo: Todo
+    }
+  }
+</script>
